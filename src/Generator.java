@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class Generator {
     private int nStrings; // количество строк, которое хотим добавить в таблицу фигуристы
-    private int nCoach ;
-    private int nCountry ;
+    private int nCoach;
+    private int nCountry;
     private int nCities;
     private int nPrograms;
     private int nResults;
@@ -23,17 +23,17 @@ public class Generator {
 
     public Generator(int n) {
         this.nStrings = n;
-        this.nCoach = 2*n;
-        this.nCountry = 2*n;
-        this.nCities = n/2;
-        this.nPrograms = n*10;
-        this.nResults = n*5;
-        this.nCompetition = n/2;
-        this.nSeason = 5*n;
-        this.nCountryCity = n/2;
-        this.nSkaterCoach = 4*n;
-        this.nSkaterCountry = 4*n;
-        this.nSkaterCompetition = 4*n;
+        this.nCoach = n;
+        this.nCountry = n;
+        this.nCities = n / 2;
+        this.nPrograms = n * 10;
+        this.nResults = n * 5;
+        this.nCompetition = n / 2;
+        this.nSeason = 5 * n;
+        this.nCountryCity = n / 2;
+        this.nSkaterCoach = 2 * n;
+        this.nSkaterCountry = 2 * n;
+        this.nSkaterCompetition = 4 * n;
 
 
     }
@@ -129,10 +129,10 @@ public class Generator {
         System.out.println(nCoach + " row(s) were added to table coach");
     }
 
-    void insertTableCities(int nStrings) throws SQLException {
+    void insertTableCities(int nCities) throws SQLException {
         int nextId = getMaxId("cities");
         PreparedStatement statement = dbcon.prepareStatement("INSERT INTO cities( id, city) VALUES(?, ?)");
-        for (int i = 0; i < nStrings; i++) {
+        for (int i = 0; i < nCities; i++) {
             nextId++;
             String city = generateString(10);
             statement.setInt(1, nextId);
@@ -140,13 +140,13 @@ public class Generator {
             statement.executeUpdate();
         }
         statement.close();
-        System.out.println(nStrings + " row(s) were added to table cities");
+        System.out.println(nCities + " row(s) were added to table cities");
     }
 
-    void insertTableCompetition(int nStrings) throws SQLException {
+    void insertTableCompetition(int nCompetition) throws SQLException {
         int nextId = getMaxId("competition");
         PreparedStatement statement = dbcon.prepareStatement("INSERT INTO competition( id, name, place,date) VALUES(?, ?, ?, ?)");
-        for (int i = 0; i < nStrings; i++) {
+        for (int i = 0; i < nCompetition; i++) {
             nextId++;
             String name = generateString(15);
             int place = generateIdCities();
@@ -158,13 +158,13 @@ public class Generator {
             statement.executeUpdate();
         }
         statement.close();
-        System.out.println(nStrings + " row(s) were added to table competition");
+        System.out.println(nCompetition + " row(s) were added to table competition");
     }
 
-    void insertTableCountry(int nStrings) throws SQLException {
+    void insertTableCountry(int nCountry) throws SQLException {
         int nextId = getMaxId("country");
         PreparedStatement statement = dbcon.prepareStatement("INSERT INTO country( id, name) VALUES(?, ?)");
-        for (int i = 0; i < nStrings; i++) {
+        for (int i = 0; i < nCountry; i++) {
             nextId++;
             String country = generateString(10);
             statement.setInt(1, nextId);
@@ -172,13 +172,13 @@ public class Generator {
             statement.executeUpdate();
         }
         statement.close();
-        System.out.println(nStrings + " row(s) were added to table country");
+        System.out.println(nCountry + " row(s) were added to table country");
     }
 
-    void insertTableCountryCity(int nStrings) throws SQLException {
+    void insertTableCountryCity(int nCountryCity) throws SQLException {
         int nextId = getMaxId("country_city");
         PreparedStatement statement = dbcon.prepareStatement("INSERT INTO country_city( id, id_city, id_country ) VALUES(?, ?, ?)");
-        for (int i = 0; i < nStrings; i++) {
+        for (int i = 0; i < nCountryCity; i++) {
             nextId++;
             int id_city = generateIdCities();
             int id_country = generateIdCountry();
@@ -188,7 +188,7 @@ public class Generator {
             statement.executeUpdate();
         }
         statement.close();
-        System.out.println(nStrings + " row(s) were added to table country_city");
+        System.out.println(nCountryCity + " row(s) were added to table country_city");
     }
 
     void insertTableFSkaters(int nStrings) throws SQLException {
@@ -211,10 +211,10 @@ public class Generator {
         System.out.println(nStrings + " row(s) were added to table fskaters");
     }
 
-    void insertTableProgram(int nStrings) throws SQLException {
+    void insertTableProgram(int nPrograms) throws SQLException {
         int nextId = getMaxId("program");
         PreparedStatement statement = dbcon.prepareStatement("INSERT INTO program( id, position, element_score, component_score, deductions,total_score) VALUES(?, ?, ?, ?, ?, ?)");
-        for (int i = 0; i < nStrings; i++) {
+        for (int i = 0; i < nPrograms; i++) {
             nextId++;
             int position = generateInt(1, 50);
             double element_score = generateScore(0, 110);
@@ -230,13 +230,13 @@ public class Generator {
             statement.executeUpdate();
         }
         statement.close();
-        System.out.println(nStrings + " row(s) were added to table program");
+        System.out.println(nPrograms + " row(s) were added to table program");
     }
 
-    void insertTableResults(int nStrings) throws SQLException {
+    void insertTableResults(int nResults) throws SQLException {
         int nextId = getMaxId("results");
         PreparedStatement statement = dbcon.prepareStatement("INSERT INTO results( id, position, total,id_skater, short_program,free_program) VALUES(?, ?, ?, ?, ?, ?)");
-        for (int i = 0; i < nStrings; i++) {
+        for (int i = 0; i < nResults; i++) {
             nextId++;
             int position = generateInt(1, 50);
             double total = generateScore(0, 315);
@@ -252,13 +252,13 @@ public class Generator {
             statement.executeUpdate();
         }
         statement.close();
-        System.out.println(nStrings + " row(s) were added to table results");
+        System.out.println(nResults + " row(s) were added to table results");
     }
 
-    void insertTableSeason(int nStrings) throws SQLException {
+    void insertTableSeason(int nSeason) throws SQLException {
         int nextId = getMaxId("season");
         PreparedStatement statement = dbcon.prepareStatement("INSERT INTO season( id, highest_position, year,best_score_per_season, best_score_sp,best_score_fp,fskater) VALUES(?, ?, ?, ?, ?, ?,?)");
-        for (int i = 0; i < nStrings; i++) {
+        for (int i = 0; i < nSeason; i++) {
             nextId++;
             int highest_position = generateInt(1, 50);
             String year = generateYear();
@@ -276,13 +276,13 @@ public class Generator {
             statement.executeUpdate();
         }
         statement.close();
-        System.out.println(nStrings + " row(s) were added to table season");
+        System.out.println(nSeason + " row(s) were added to table season");
     }
 
-    void insertTableSkaterCoach(int nStrings) throws SQLException {
+    void insertTableSkaterCoach(int nSkaterCoach) throws SQLException {
         int nextId = getMaxId("skater_coach");
         PreparedStatement statement = dbcon.prepareStatement("INSERT INTO skater_coach( id, id_skater, id_coach, since, until) VALUES(?, ?, ?, ?, ?)");
-        for (int i = 0; i < nStrings; i++) {
+        for (int i = 0; i < nSkaterCoach; i++) {
             nextId++;
             int id_skater = generateIdFSkaters();
             int id_coach = generateIdCoach();
@@ -297,13 +297,13 @@ public class Generator {
             statement.executeUpdate();
         }
         statement.close();
-        System.out.println(nStrings + " row(s) were added to table skater_coach");
+        System.out.println(nSkaterCoach + " row(s) were added to table skater_coach");
     }
 
-    void insertTableSkaterCompetition(int nStrings) throws SQLException {
+    void insertTableSkaterCompetition(int nSkaterCompetition) throws SQLException {
         int nextId = getMaxId("skater_competition");
-            PreparedStatement statement = dbcon.prepareStatement("INSERT INTO skater_competition( id, checkin_day, id_skater, id_competition) VALUES(?, ?, ?, ?)");
-        for (int i = 0; i < nStrings; i++) {
+        PreparedStatement statement = dbcon.prepareStatement("INSERT INTO skater_competition( id, checkin_day, id_skater, id_competition) VALUES(?, ?, ?, ?)");
+        for (int i = 0; i < nSkaterCompetition; i++) {
             nextId++;
             int id_skater = generateIdFSkaters();
             int id_competition = generateIdCompetition();
@@ -315,13 +315,13 @@ public class Generator {
             statement.executeUpdate();
         }
         statement.close();
-        System.out.println(nStrings + " row(s) were added to table skater_competition");
+        System.out.println(nSkaterCompetition + " row(s) were added to table skater_competition");
     }
 
-    void insertTableSkaterCountry(int nStrings) throws SQLException {
+    void insertTableSkaterCountry(int nSkaterCountry) throws SQLException {
         int nextId = getMaxId("skater_country");
         PreparedStatement statement = dbcon.prepareStatement("INSERT INTO skater_country( id, id_skater, id_country, since, until) VALUES(?, ?, ?, ?, ?)");
-        for (int i = 0; i < nStrings; i++) {
+        for (int i = 0; i < nSkaterCountry; i++) {
             nextId++;
             int id_skater = generateIdFSkaters();
             int id_country = generateIdCountry();
@@ -336,7 +336,7 @@ public class Generator {
             statement.executeUpdate();
         }
         statement.close();
-        System.out.println(nStrings + " row(s) were added to table skater_country");
+        System.out.println(nSkaterCountry + " row(s) were added to table skater_country");
     }
 
     // получение id таблиц для заполнения внешних ключей
@@ -425,6 +425,7 @@ public class Generator {
     }
 
     private Integer[] skaterCompetitionIds;
+
     private int generateIdSkaterCompetition() throws SQLException {
         PreparedStatement stm = dbcon.prepareStatement("SELECT array(select id from skater_competition)");
         ResultSet r = stm.executeQuery();
@@ -452,10 +453,49 @@ public class Generator {
     public int getnStrings() {
         return nStrings;
     }
+
     public int getnCoach() {
         return nCoach;
     }
 
+    public int getnCountry() {
+        return nCountry;
+    }
 
+    public int getnCities() {
+        return nCities;
+    }
+
+    public int getnPrograms() {
+        return nPrograms;
+    }
+
+    public int getnResults() {
+        return nResults;
+    }
+
+    public int getnCompetition() {
+        return nCompetition;
+    }
+
+    public int getnSeason() {
+        return nSeason;
+    }
+
+    public int getnCountryCity() {
+        return nCountryCity;
+    }
+
+    public int getnSkaterCoach() {
+        return nSkaterCoach;
+    }
+
+    public int getnSkaterCountry() {
+        return nSkaterCountry;
+    }
+
+    public int getnSkaterCompetition() {
+        return nSkaterCompetition;
+    }
 }
 
